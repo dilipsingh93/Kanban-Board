@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ProjectFlow - My Workspace</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/dashboard/dashboard.css"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body class="dashboard-page" data-theme="day">
+
+<div class="app-shell">
+
+    <aside class="sidebar">
+
+        <a class="brand" href="dashboard.html" aria-label="ProjectFlow workspace">
+            <span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <span class="brand-copy">
+                <strong>ProjectFlow</strong>
+                <small>TEAM WORKSPACE</small>
+            </span>
+        </a>
+
+        <p class="nav-label">WORKSPACE</p>
+
+        <nav class="sidebar-nav" aria-label="Workspace navigation">
+            <a class="nav-item active" href="#overview" aria-current="page">
+                <span class="nav-icon" aria-hidden="true">⌂</span>
+                <span>Overview</span>
+            </a>
+            <a class="nav-item" href="#teams">
+                <span class="nav-icon" aria-hidden="true">▦</span>
+                <span>My teams</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-note">
+                <span class="note-mark" aria-hidden="true">✦</span>
+                <div>
+                    <strong>Make progress visible</strong>
+                    <span>Keep your team moving together.</span>
+                </div>
+            </div>
+            <button id="logoutButton" class="logout-btn" type="button">
+                <span aria-hidden="true">↪</span> Sign out
+            </button>
+        </div>
+
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div class="topbar-heading">
+                <span class="topbar-kicker">YOUR SPACE</span>
+                <p>Overview <span aria-hidden="true">/</span> Teams</p>
+            </div>
+
+            <div class="topbar-spacer"></div>
+
+            <button
+                id="themeToggleButton"
+                class="theme-toggle"
+                type="button"
+                aria-label="Switch to night mode"
+                aria-pressed="false"
+            >
+                <span aria-hidden="true">&#9790;</span>
+                <span class="theme-toggle-label">Night mode</span>
+            </button>
+
+            <div class="user-area">
+                <div class="user-info">
+                    <span class="user-greeting">SIGNED IN</span>
+                    <strong id="welcomeText">Loading...</strong>
+                </div>
+                <span id="userAvatar" class="avatar" aria-hidden="true">PF</span>
+            </div>
+        </header>
+
+        <div class="page-content">
+
+            <section class="hero" id="overview">
+                <div class="hero-content">
+                    <span class="hero-badge"><span class="status-dot"></span> YOUR TEAM HUB</span>
+                    <h1>Bring good ideas<br>into <span>focus.</span></h1>
+                    <p>One clear space for your team to plan, collaborate, and move projects forward.</p>
+                    <div class="hero-actions">
+                        <button id="createTeamButton" class="button-primary" type="button">
+                            <span aria-hidden="true">+</span> Create a team
+                        </button>
+                        <button id="joinTeamButton" class="button-secondary" type="button">
+                            Join with a code <span aria-hidden="true">&#8594;</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-art" aria-hidden="true">
+                    <div class="preview-window">
+                        <div class="preview-topline">
+                            <span class="preview-dots"><i></i><i></i><i></i></span>
+                            <span>PROJECT FLOW</span>
+                            <span class="preview-live">LIVE</span>
+                        </div>
+                        <div class="preview-board">
+                            <div class="preview-column">
+                                <span class="preview-column-title"><i></i> PLAN</span>
+                                <span class="preview-task task-one"><b></b><i></i></span>
+                                <span class="preview-task task-two"><b></b><i></i></span>
+                            </div>
+                            <div class="preview-column">
+                                <span class="preview-column-title"><i></i> BUILD</span>
+                                <span class="preview-task task-three"><b></b><i></i><em></em></span>
+                            </div>
+                            <div class="preview-column">
+                                <span class="preview-column-title"><i></i> DONE</span>
+                                <span class="preview-task task-four"><b></b><i></i></span>
+                            </div>
+                        </div>
+                        <div class="preview-footer"><span></span> A little progress adds up.</div>
+                    </div>
+                    <span class="hero-art-stamp">PF<br><small>WORK<br>IN FLOW</small></span>
+                </div>
+            </section>
+
+            <section class="teams-section" id="teams">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">COLLABORATION</p>
+                        <h2>Your teams</h2>
+                        <p class="section-description">Pick up where your team left off.</p>
+                    </div>
+                    <div class="team-count" id="teamCount" aria-live="polite">
+                        <strong>—</strong><span>teams</span>
+                    </div>
+                </div>
+
+                <div id="teamsContainer" class="teams-container" aria-live="polite">
+                    <div class="loading-state"><span class="loading-mark"></span> Loading your teams...</div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+</div>
+
+
+<!-- CREATE TEAM MODAL -->
+
+<div
+    id="createTeamModal"
+    class="modal hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="createTeamTitle"
+    aria-hidden="true"
+>
+
+    <div class="modal-content">
+
+        <button
+            class="close-modal"
+            id="closeCreateModal"
+            type="button"
+            aria-label="Close create team dialog"
+        >
+            ×
+        </button>
+
+        <h2 id="createTeamTitle">Create a Team</h2>
+
+        <p>
+            Start a new project and become its leader.
+        </p>
+
+        <form id="createTeamForm">
+
+            <label for="teamName">
+                Team Name
+            </label>
+
+            <input
+                type="text"
+                id="teamName"
+                placeholder="e.g. College Website Team"
+                required
+            >
+
+            <label for="teamDescription">
+                Description
+            </label>
+            <textarea
+                id="teamDescription"
+                placeholder="What is this team working on?"
+            ></textarea>
+            <button type="submit">
+                Create Team
+            </button>
+            <p id="createTeamMessage"></p>
+        </form>
+    </div>
+</div>
+<!-- JOIN TEAM MODAL -->
+<div
+    id="joinTeamModal"
+    class="modal hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="joinTeamTitle"
+    aria-hidden="true"
+>
+    <div class="modal-content">
+        <button
+            class="close-modal"
+            id="closeJoinModal"
+            type="button"
+            aria-label="Close join team dialog"
+        >
+            ×
+        </button>
+        <h2 id="joinTeamTitle">Join a Team</h2>
+        <p>
+            Enter the team code given by your leader.
+        </p>
+        <form id="joinTeamForm">
+            <label for="teamCode">
+                Team Code
+            </label>
+            <input
+                type="text"
+                id="teamCode"
+                placeholder="e.g. A81F3C"
+                required
+            
+            <button type="submit">
+                Join Team
+            </button>
+            <p id="joinTeamMessage"></p>
+        </form>
+    </div>
+</div>
+<script src="../js/shared/supabase.js"></script>
+<script src="../js/shared/user-utils.js"></script>
+<script src="../js/dashboard/dashboard-state.js"></script>
+<script src="../js/dashboard/dashboard-utils.js"></script>
+<script src="../js/dashboard/dashboard-actions.js"></script>
+<script src="../js/dashboard/dashboard.js"></script>
+</body>
+</html>

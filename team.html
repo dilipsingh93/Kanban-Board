@@ -1,0 +1,831 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ProjectFlow | Team</title>
+
+    <link rel="stylesheet" href="../css/team/team.css">
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">P</div>
+            <span>ProjectFlow</span>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html" class="nav-item">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#" class="nav-item active">
+                <span class="nav-icon">▦</span>
+                <span>Team</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+                <div class="help-icon">?</div>
+
+                <div>
+                    <strong>Need help?</strong>
+                    <p>Check your project activity and tasks here.</p>
+                </div>
+            </div>
+
+            <button id="logoutBtn" class="logout-btn">
+                <span>↪</span>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="mobile-brand">
+                <div class="brand-icon">P</div>
+                <span>ProjectFlow</span>
+            </div>
+
+            <div class="topbar-right">
+
+                <button
+                    id="openDiscussionButton"
+                    class="theme-toggle discussion-open-button"
+                    type="button"
+                    aria-label="Open team discussion"
+                    aria-haspopup="dialog"
+                    aria-controls="discussionDialog"
+                >
+                    <span aria-hidden="true">▤</span>
+                    <span class="discussion-open-label">Discussion</span>
+                </button>
+
+                <button
+                    id="themeToggleButton"
+                    class="theme-toggle"
+                    type="button"
+                    aria-label="Switch to night mode"
+                    aria-pressed="false"
+                >
+                    <span aria-hidden="true">&#9790;</span>
+                    <span class="theme-toggle-label">Night mode</span>
+                </button>
+
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">
+                        U
+                    </div>
+
+                    <div>
+                        <span id="userName">User</span>
+                        <small id="userRole">Member</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= PROJECT HEADER ================= -->
+
+        <section class="project-header">
+
+            <div class="project-heading">
+
+                <button id="backBtn" class="back-btn">
+                    ←
+                </button>
+
+                <div>
+                    <div class="breadcrumb">
+                        My Teams / <span id="projectNameBreadcrumb">Project</span>
+                    </div>
+
+                    <h1 id="projectName">
+                        Loading project...
+                    </h1>
+
+                    <p id="projectDescription">
+                        Loading project information...
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="project-actions">
+
+                <!-- Leader only -->
+                <button id="createTaskBtn" class="primary-btn leader-only">
+                    <span>+</span>
+                    Create Task
+                </button>
+            </div>
+
+        </section>
+
+
+        <!-- ================= PROJECT STATS ================= -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon total">
+                    ▦
+                </div>
+
+                <div>
+                    <span class="stat-label">Total Tasks</span>
+                    <strong id="totalTasks">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon progress">
+                    ◔
+                </div>
+
+                <div>
+                    <span class="stat-label">In Progress</span>
+                    <strong id="workingTasks">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon review">
+                    ◉
+                </div>
+
+                <div>
+                    <span class="stat-label">In Review</span>
+                    <strong id="reviewTasks">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon completed">
+                    ✓
+                </div>
+
+                <div>
+                    <span class="stat-label">Completed</span>
+                    <strong id="completedTasks">0</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PROJECT PROGRESS ================= -->
+
+        <section class="progress-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Project Progress</h2>
+                    <p>Track how much of the project has been completed.</p>
+                </div>
+
+                <strong id="progressPercentage">
+                    0%
+                </strong>
+
+            </div>
+
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+
+        </section>
+
+
+        <div class="team-workspace-layout">
+            <!-- ================= KANBAN BOARD ================= -->
+
+            <section class="kanban-section">
+
+            <div class="section-heading board-heading">
+
+                <div>
+                    <h2>Project Tasks</h2>
+                    <p>Manage tasks through their current status.</p>
+                </div>
+
+                <div class="board-info">
+                    <span class="status-dot"></span>
+                    <span id="taskCountText">0 tasks</span>
+                </div>
+
+            </div>
+
+
+            <div class="kanban-board">
+
+
+                <!-- ========== TO DO ========== -->
+
+                <div class="kanban-column">
+
+                    <div class="column-header">
+
+                        <div class="column-title">
+                            <span class="column-dot todo-dot"></span>
+                            <h3>To Do</h3>
+                        </div>
+
+                        <span id="todoCount" class="column-count">
+                            0
+                        </span>
+
+                    </div>
+
+                    <div id="todoColumn" class="task-list">
+
+                        <div class="empty-column">
+                            <span>📋</span>
+                            <p>No tasks here</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ========== WORKING ========== -->
+
+                <div class="kanban-column">
+
+                    <div class="column-header">
+
+                        <div class="column-title">
+                            <span class="column-dot working-dot"></span>
+                            <h3>Working</h3>
+                        </div>
+
+                        <span id="workingCount" class="column-count">
+                            0
+                        </span>
+
+                    </div>
+
+                    <div id="workingColumn" class="task-list">
+
+                        <div class="empty-column">
+                            <span>⚙</span>
+                            <p>No tasks here</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ========== IN REVIEW ========== -->
+
+                <div class="kanban-column">
+
+                    <div class="column-header">
+
+                        <div class="column-title">
+                            <span class="column-dot review-dot"></span>
+                            <h3>In Review</h3>
+                        </div>
+
+                        <span id="reviewCount" class="column-count">
+                            0
+                        </span>
+
+                    </div>
+
+                    <div id="reviewColumn" class="task-list">
+
+                        <div class="empty-column">
+                            <span>👀</span>
+                            <p>No tasks here</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ========== COMPLETED ========== -->
+
+                <div class="kanban-column">
+
+                    <div class="column-header">
+
+                        <div class="column-title">
+                            <span class="column-dot completed-dot"></span>
+                            <h3>Completed</h3>
+                        </div>
+
+                        <span id="completedCount" class="column-count">
+                            0
+                        </span>
+
+                    </div>
+
+                    <div id="completedColumn" class="task-list">
+
+                        <div class="empty-column">
+                            <span>✓</span>
+                            <p>No completed tasks</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            </section>
+
+            <dialog id="discussionDialog" class="discussion-dialog"
+                aria-labelledby="discussionTitle">
+                <section class="discussion-panel">
+                    <div class="discussion-header">
+                        <div>
+                            <h2 id="discussionTitle">Team Discussion</h2>
+                            <p>Share ideas and agree on an approach.</p>
+                        </div>
+                        <div class="discussion-header-actions">
+                            <span id="discussionStatus" class="discussion-status">Connecting</span>
+                            <button id="closeDiscussionButton" class="discussion-close-button"
+                                type="button" aria-label="Close team discussion">&times;</button>
+                        </div>
+                    </div>
+
+                    <div id="discussionMessages" class="discussion-messages"
+                        role="log" aria-live="polite" aria-relevant="additions text">
+                        <p class="discussion-empty">Loading discussion...</p>
+                    </div>
+
+                    <form id="discussionForm" class="discussion-form">
+                        <label class="sr-only" for="discussionInput">Write a message</label>
+                        <textarea id="discussionInput" maxlength="2000" rows="3"
+                            placeholder="Share an idea with your team..." required></textarea>
+                        <div class="discussion-compose-footer">
+                            <span>Enter to send · Shift+Enter for a new line</span>
+                            <button id="discussionSendButton" type="submit">Send</button>
+                        </div>
+                    </form>
+                </section>
+            </dialog>
+        </div>
+
+
+        <!-- ================= TEAM MEMBERS ================= -->
+
+        <section class="members-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Team Members</h2>
+                    <p>People working on this project.</p>
+                </div>
+
+                <span id="memberCount">
+                    0 members
+                </span>
+
+            </div>
+
+
+            <div id="membersGrid" class="members-grid">
+
+                <div class="loading-members">
+                    Loading team members...
+                </div>
+
+            </div>
+
+        </section>
+
+        <div class="team-footer-actions">
+            <button id="deleteTeamBtn" class="danger-btn leader-only" type="button">
+                Delete Team
+            </button>
+        </div>
+
+    </main>
+
+
+    <!-- ================= CREATE TASK MODAL ================= -->
+
+    <div id="createTaskModal" class="modal hidden">
+
+        <div class="modal-overlay"></div>
+
+        <div class="modal-box">
+
+            <div class="modal-header">
+
+                <div>
+                    <span class="modal-label">NEW TASK</span>
+                    <h2>Create Task</h2>
+                    <p>Add a new task to your project.</p>
+                </div>
+
+                <button id="closeCreateTaskModal" class="close-btn">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="createTaskForm">
+
+                <div class="form-group">
+
+                    <label for="taskTitle">
+                        Task Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="taskTitle"
+                        placeholder="e.g. Design landing page"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="taskDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="taskDescription"
+                        rows="4"
+                        placeholder="Describe what needs to be done..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="taskPriority">
+                            Priority
+                        </label>
+
+                        <select id="taskPriority">
+
+                            <option value="low">
+                                Low
+                            </option>
+
+                            <option value="medium" selected>
+                                Medium
+                            </option>
+
+                            <option value="high">
+                                High
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="taskDeadline">
+                            Deadline
+                        </label>
+
+                        <input
+                            type="date"
+                            id="taskDeadline"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="taskAssignee">
+                        Assign To
+                    </label>
+
+                    <select id="taskAssignee">
+
+                        <option value="">
+                            Open Task - Anyone Can Accept
+                        </option>
+
+                    </select>
+
+                    <small class="form-hint">
+                        Leave this empty if anyone on the team can accept the task.
+                    </small>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="createTaskFiles">
+                        Attach Files (Optional)
+                    </label>
+
+                    <input
+                        type="file"
+                        id="createTaskFiles"
+                        multiple
+                    >
+
+                    <small class="form-hint">
+                        Select one or more files to attach to this task.
+                    </small>
+
+                    <div
+                        id="createTaskFileNames"
+                        class="selected-upload-list"
+                        aria-live="polite"
+                    ></div>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        id="cancelCreateTask"
+                        class="secondary-btn"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
+                        Create Task
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= TASK DETAILS MODAL ================= -->
+
+    <div id="taskDetailsModal" class="modal hidden">
+
+        <div class="modal-overlay"></div>
+
+        <div class="modal-box task-modal-box">
+
+            <div class="modal-header">
+
+                <div>
+                    <span id="taskModalPriority" class="priority-badge">
+                        MEDIUM
+                    </span>
+
+                    <h2 id="taskModalTitle">
+                        Task Title
+                    </h2>
+
+                    <p id="taskModalDescription">
+                        Task description
+                    </p>
+                </div>
+                <button id="closeTaskDetailsModal" class="close-btn">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="task-details">
+
+                <div class="detail-item">
+
+                    <span>STATUS</span>
+                    <strong id="taskModalStatus">
+                        To Do
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>ASSIGNED TO</span>
+                    <strong id="taskModalAssignee">
+                        Open Task
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>DEADLINE</span>
+                    <strong id="taskModalDeadline">
+                        No deadline
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- Worker Actions -->
+
+            <div id="workerTaskActions" class="task-actions">
+
+                <button
+                    id="acceptTaskBtn"
+                    class="primary-btn"
+                >
+                    Accept Task
+                </button>
+
+                <button
+                    id="startTaskBtn"
+                    class="primary-btn"
+                >
+                    Start Task
+                </button>
+
+                <button
+                    id="submitReviewBtn"
+                    class="primary-btn"
+                >
+                    Submit for Review
+                </button>
+
+            </div>
+
+
+            <!-- Leader Review Actions -->
+
+            <div id="leaderReviewActions" class="review-actions">
+
+                <h3>Review Submission</h3>
+
+                <textarea
+                    id="reviewComment"
+                    rows="4"
+                    placeholder="Add feedback for the worker..."
+                ></textarea>
+
+                <div class="review-buttons">
+
+                    <button
+                        id="requestChangesBtn"
+                        class="secondary-btn"
+                    >
+                        Request Changes
+                    </button>
+
+                    <button
+                        id="approveTaskBtn"
+                        class="primary-btn"
+                    >
+                        Approve & Complete
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Task Files -->
+
+            <div class="files-section">
+
+                <div class="files-heading">
+
+                    <div>
+                        <h3>Task Files</h3>
+                        <p>Files attached to this task.</p>
+                    </div>
+
+                    <button
+                        type="button"
+                        id="uploadFileButton"
+                        class="upload-btn"
+                    >
+                        + Upload file
+                    </button>
+
+                    <input
+                        type="file"
+                        id="taskFileInput"
+                        hidden
+                    >
+
+                </div>
+
+
+                <div id="taskFilesList" class="task-files-list" aria-live="polite">
+                    <p class="no-files">No files uploaded yet.</p>
+                </div>
+
+            </div>
+
+
+            <!-- Activity -->
+
+            <div class="activity-section">
+
+                <h3>Activity</h3>
+
+                <div id="taskActivityList" class="activity-list">
+
+                    <p class="no-activity">
+                        No activity yet.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= TOAST ================= -->
+
+    <div id="toast" class="toast">
+
+        <span id="toastMessage">
+            Something happened.
+        </span>
+
+    </div>
+
+
+    <!-- ================= SCRIPTS ================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/shared/supabase.js"></script>
+    <script src="../js/shared/user-utils.js"></script>
+    <script src="../js/shared/theme-toggle.js"></script>
+    <script src="../js/team/team-state.js"></script>
+    <script src="../js/team/team-utils.js"></script>
+    <script src="../js/team/team-render.js"></script>
+    <script src="../js/team/team-actions.js"></script>
+    <script src="../js/team/team-discussion.js"></script>
+    <script src="../js/team/team.js"></script>
+
+</body>
+
+</html>
+```
